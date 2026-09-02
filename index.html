@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VecinoPaso | Gestión Vecinal Hiperlocal</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    --verde-principal: #2E7D5B;
+    --verde-oscuro: #1B4D3E;
+    --verde-claro: #E8F3EE;
+    --naranja-acento: #E8944A;
+    --gris-texto: #3A3F3D;
+    --blanco: #FFFFFF;
+  }
+
+  body {
+    color: var(--gris-texto);
+    background-color: var(--blanco);
+    line-height: 1.6;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 8%;
+    background-color: var(--blanco);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--verde-oscuro);
+  }
+
+  .logo span {
+    color: var(--naranja-acento);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gris-texto);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--verde-principal);
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--verde-claro) 0%, #FFFFFF 100%);
+    text-align: center;
+    padding: 110px 8% 100px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 20px;
+    font-weight: 800;
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--gris-texto);
+    max-width: 640px;
+    margin: 0 auto 36px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background-color: var(--naranja-acento);
+    color: var(--blanco);
+    padding: 16px 38px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(232, 148, 74, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(232, 148, 74, 0.45);
+  }
+
+  .features {
+    padding: 90px 8%;
+    background-color: var(--blanco);
+  }
+
+  .features-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .features-header h2 {
+    font-size: 2.2rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 12px;
+  }
+
+  .features-header p {
+    color: #6B7570;
+    font-size: 1rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background-color: var(--verde-claro);
+    border-radius: 16px;
+    padding: 36px 28px;
+    text-align: left;
+    border: 1px solid #D5E9DF;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 30px rgba(27, 77, 62, 0.12);
+  }
+
+  .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background-color: var(--verde-principal);
+    color: var(--blanco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+
+  .card h3 {
+    font-size: 1.25rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 8px;
+  }
+
+  .card .dato {
+    display: inline-block;
+    background-color: var(--naranja-acento);
+    color: var(--blanco);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+
+  .card p.desc {
+    font-size: 0.95rem;
+    color: var(--gris-texto);
+  }
+
+  footer {
+    background-color: var(--verde-oscuro);
+    color: #CFE3D9;
+    text-align: center;
+    padding: 28px 8%;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      gap: 16px;
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+    }
+
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Vecino<span>Paso</span></div>
+  <ul class="nav-links">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#funcionalidades">Funcionalidades</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="inicio">
+  <h1>Tu barrio, mejor organizado</h1>
+  <p>VecinoPaso conecta a tus vecinos para coordinar reportes urbanos, fondos comunitarios y favores locales, sin el caos de los grupos de WhatsApp.</p>
+  <a href="#funcionalidades" class="btn-primary">Conoce cómo funciona</a>
+</section>
+
+<section class="features" id="funcionalidades">
+  <div class="features-header">
+    <h2>Funcionalidades</h2>
+    <p>Todo lo que tu comunidad necesita, en un solo lugar</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">R</div>
+      <span class="dato">Gratis</span>
+      <h3>Reportes Urbanos</h3>
+      <p class="desc">Reporta baches, luminarias dañadas o fugas de agua y da seguimiento en tiempo real junto a tus vecinos.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">F</div>
+      <span class="dato">Comisión 2%</span>
+      <h3>Fondos Comunitarios</h3>
+      <p class="desc">Organiza y administra colectas para mejoras del barrio con total transparencia y control de gastos.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">V</div>
+      <span class="dato">Desde $49/mes</span>
+      <h3>Favores Locales</h3>
+      <p class="desc">Pide o ofrece ayuda entre vecinos: préstamos de herramientas, cuidado de mascotas o mandados rápidos.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="contacto">
+  <p>&copy; 2026 VecinoPaso. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
