@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VecinoPaso | Gestión Vecinal Hiperlocal</title>
+<!-- Supabase JS v2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   * {
     margin: 0;
@@ -211,6 +213,239 @@
       grid-template-columns: 1fr;
     }
   }
+  /* --- Componentes de Autenticación Supabase --- */
+  .auth-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-auth-trigger {
+    background-color: var(--verde-principal);
+    color: var(--blanco);
+    padding: 9px 22px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(46, 125, 91, 0.25);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-auth-trigger:hover {
+    background-color: var(--verde-oscuro);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(27, 77, 62, 0.3);
+  }
+
+  .user-session {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .greeting {
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    font-size: 0.95rem;
+  }
+
+  .btn-logout {
+    background: transparent;
+    color: #B91C1C;
+    border: 1.5px solid #FCA5A5;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-logout:hover {
+    background-color: #FEF2F2;
+    border-color: #EF4444;
+    color: #991B1B;
+  }
+
+  /* Modal de Autenticación */
+  .auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(27, 77, 62, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .auth-modal-card {
+    background-color: var(--blanco);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 410px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 45px rgba(27, 77, 62, 0.25);
+    border: 1px solid #D5E9DF;
+    position: relative;
+    animation: slideUp 0.25s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(18px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    color: #9CA3AF;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+
+  .modal-close-btn:hover {
+    color: var(--verde-oscuro);
+  }
+
+  .modal-header {
+    text-align: center;
+    margin-bottom: 6px;
+  }
+
+  .auth-tabs {
+    display: flex;
+    background-color: var(--verde-claro);
+    border-radius: 12px;
+    padding: 4px;
+    margin: 18px 0;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--gris-texto);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .tab-btn.active {
+    background-color: var(--blanco);
+    color: var(--verde-oscuro);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .auth-alert {
+    background-color: #FEF2F2;
+    border: 1px solid #F87171;
+    color: #B91C1C;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 0.86rem;
+    margin-bottom: 16px;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .auth-form {
+    text-align: left;
+  }
+
+  .form-group {
+    margin-bottom: 14px;
+  }
+
+  .form-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 5px;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #D5E9DF;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    color: var(--gris-texto);
+    background-color: #FAFDFA;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+  }
+
+  .form-input:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 3px rgba(46, 125, 91, 0.15);
+    background-color: var(--blanco);
+  }
+
+  .btn-submit {
+    width: 100%;
+    background-color: var(--naranja-acento);
+    color: var(--blanco);
+    padding: 13px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(232, 148, 74, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(232, 148, 74, 0.4);
+  }
+
+  .btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .nav-links {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .auth-nav {
+      order: 2;
+    }
+  }
 </style>
 </head>
 <body>
@@ -222,6 +457,13 @@
     <li><a href="#funcionalidades">Funcionalidades</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
+  <div id="auth-nav-container" class="auth-nav">
+    <button id="btn-open-auth" class="btn-auth-trigger" type="button">Ingresar</button>
+    <div id="user-session-bar" class="user-session" style="display: none;">
+      <span id="user-greeting-text" class="greeting"></span>
+      <button id="btn-logout" class="btn-logout" type="button">Cerrar sesión</button>
+    </div>
+  </div>
 </nav>
 
 <section class="hero" id="inicio">
@@ -261,5 +503,320 @@
   <p>&copy; 2026 VecinoPaso. Todos los derechos reservados.</p>
 </footer>
 
+<!-- Modal de Autenticación Supabase -->
+<div id="auth-modal" class="auth-modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="auth-modal-card">
+    <button id="btn-close-modal" class="modal-close-btn" type="button" aria-label="Cerrar">&times;</button>
+    
+    <div class="modal-header">
+      <div class="logo" style="font-size: 1.4rem; margin-bottom: 4px;">Vecino<span>Paso</span></div>
+      <p id="modal-title" style="font-size: 0.9rem; color: #6B7570;">Acceso a la comunidad vecinal</p>
+    </div>
+
+    <!-- Pestañas para alternar entre Login y Registro -->
+    <div class="auth-tabs" role="tablist">
+      <button id="tab-login" class="tab-btn active" type="button" role="tab" aria-selected="true">Iniciar Sesión</button>
+      <button id="tab-register" class="tab-btn" type="button" role="tab" aria-selected="false">Registrarse</button>
+    </div>
+
+    <!-- Mensaje de Error Visible -->
+    <div id="auth-error-box" class="auth-alert" style="display: none;" role="alert"></div>
+
+    <!-- Formulario de Inicio de Sesión -->
+    <form id="form-login" class="auth-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="login-email">Correo Electrónico</label>
+        <input type="email" id="login-email" class="form-input" placeholder="ejemplo@correo.com" required autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Contraseña</label>
+        <input type="password" id="login-password" class="form-input" placeholder="Tu contraseña" required autocomplete="current-password" />
+      </div>
+      <button type="submit" id="btn-submit-login" class="btn-submit">Entrar</button>
+    </form>
+
+    <!-- Formulario de Registro -->
+    <form id="form-register" class="auth-form" style="display: none;" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="reg-name">Nombre Completo</label>
+        <input type="text" id="reg-name" class="form-input" placeholder="Ej. Juan Pérez" required autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-email">Correo Electrónico</label>
+        <input type="email" id="reg-email" class="form-input" placeholder="ejemplo@correo.com" required autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-password">Contraseña (mínimo 6 caracteres)</label>
+        <input type="password" id="reg-password" class="form-input" placeholder="Al menos 6 caracteres" required autocomplete="new-password" />
+      </div>
+      <button type="submit" id="btn-submit-register" class="btn-submit">Crear Cuenta</button>
+    </form>
+  </div>
+</div>
+
+<!-- Lógica de Supabase Auth y Gestión de Perfiles -->
+<script>
+  // Inicialización del cliente Supabase con la Publishable Key
+  const SUPABASE_URL = 'https://zduyeljyjmvxdnqlrxeb.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_aR-lXAYrr7YiFfDruZoY8A_9ZCP7s03';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Referencias a elementos del DOM
+  const authModal = document.getElementById('auth-modal');
+  const btnOpenAuth = document.getElementById('btn-open-auth');
+  const btnCloseModal = document.getElementById('btn-close-modal');
+  const tabLogin = document.getElementById('tab-login');
+  const tabRegister = document.getElementById('tab-register');
+  const formLogin = document.getElementById('form-login');
+  const formRegister = document.getElementById('form-register');
+  const authErrorBox = document.getElementById('auth-error-box');
+  const userSessionBar = document.getElementById('user-session-bar');
+  const userGreetingText = document.getElementById('user-greeting-text');
+  const btnLogout = document.getElementById('btn-logout');
+
+  // Funciones de utilidad para visualización de errores
+  function showError(msg) {
+    authErrorBox.textContent = msg;
+    authErrorBox.style.display = 'block';
+  }
+
+  function clearError() {
+    authErrorBox.textContent = '';
+    authErrorBox.style.display = 'none';
+  }
+
+  // Alternar entre pestañas Login y Registro
+  function switchTab(mode) {
+    clearError();
+    if (mode === 'login') {
+      tabLogin.classList.add('active');
+      tabLogin.setAttribute('aria-selected', 'true');
+      tabRegister.classList.remove('active');
+      tabRegister.setAttribute('aria-selected', 'false');
+      formLogin.style.display = 'block';
+      formRegister.style.display = 'none';
+    } else {
+      tabRegister.classList.add('active');
+      tabRegister.setAttribute('aria-selected', 'true');
+      tabLogin.classList.remove('active');
+      tabLogin.setAttribute('aria-selected', 'false');
+      formRegister.style.display = 'block';
+      formLogin.style.display = 'none';
+    }
+  }
+
+  function openModal(mode = 'login') {
+    switchTab(mode);
+    authModal.style.display = 'flex';
+  }
+
+  function closeModal() {
+    authModal.style.display = 'none';
+    clearError();
+  }
+
+  // Actualizar interfaz según el estado de la sesión
+  function setSessionUI(nombre) {
+    if (nombre) {
+      btnOpenAuth.style.display = 'none';
+      userGreetingText.textContent = `Hola, ${nombre}`;
+      userSessionBar.style.display = 'flex';
+      closeModal();
+    } else {
+      userSessionBar.style.display = 'none';
+      userGreetingText.textContent = '';
+      btnOpenAuth.style.display = 'inline-block';
+    }
+  }
+
+  // Leer nombre desde la tabla public.perfiles
+  async function fetchProfileName(userId, fallback = '') {
+    try {
+      const { data, error } = await supabase
+        .from('perfiles')
+        .select('nombre')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (!error && data && data.nombre) {
+        return data.nombre;
+      }
+    } catch (e) {
+      console.error('Error al consultar perfiles:', e);
+    }
+    return fallback || 'Vecino';
+  }
+
+  // Flujo 1: Registro de usuario
+  formRegister.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const nombre = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const password = document.getElementById('reg-password').value;
+
+    if (!nombre || !email || !password) {
+      showError('Por favor completa todos los campos.');
+      return;
+    }
+
+    // Validación: contraseña de al menos 6 caracteres
+    if (password.length < 6) {
+      showError('La contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+
+    const btnSubmit = document.getElementById('btn-submit-register');
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Creando cuenta...';
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { nombre }
+        }
+      });
+
+      if (error) {
+        let msg = error.message;
+        if (msg.includes('already registered') || error.code === 'user_already_exists' || error.status === 422) {
+          msg = 'Este correo electrónico ya está registrado. Por favor inicia sesión.';
+        } else if (msg.includes('Password should be')) {
+          msg = 'La contraseña debe tener al menos 6 caracteres.';
+        }
+        showError(msg);
+        return;
+      }
+
+      if (!data.user) {
+        showError('No se pudo crear el usuario. Inténtalo de nuevo.');
+        return;
+      }
+
+      // Insertar en la tabla public.perfiles con id = user.id y nombre
+      const { error: profileError } = await supabase
+        .from('perfiles')
+        .insert([{ id: data.user.id, nombre }]);
+
+      if (profileError) {
+        console.warn('Inserción de perfil:', profileError);
+      }
+
+      // Mostrar bienvenida y botón cerrar sesión
+      setSessionUI(nombre);
+      formRegister.reset();
+    } catch (err) {
+      showError(err.message || 'Error de conexión durante el registro.');
+    } finally {
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Crear Cuenta';
+    }
+  });
+
+  // Flujo 2: Inicio de sesión
+  formLogin.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    if (!email || !password) {
+      showError('Por favor ingresa correo y contraseña.');
+      return;
+    }
+
+    const btnSubmit = document.getElementById('btn-submit-login');
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Iniciando sesión...';
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        showError('Correo o contraseña incorrectos.');
+        return;
+      }
+
+      if (!data.user) {
+        showError('No se pudo iniciar sesión.');
+        return;
+      }
+
+      // Al iniciar sesión, leer el nombre desde la tabla perfiles
+      const nombre = await fetchProfileName(data.user.id, data.user.user_metadata?.nombre);
+      setSessionUI(nombre);
+      formLogin.reset();
+    } catch (err) {
+      showError(err.message || 'Error de conexión al iniciar sesión.');
+    } finally {
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Entrar';
+    }
+  });
+
+  // Flujo 3: Cerrar sesión
+  btnLogout.addEventListener('click', async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error('Error al cerrar sesión:', e);
+    }
+    setSessionUI(null);
+  });
+
+  // Eventos de apertura y cierre de modal
+  btnOpenAuth.addEventListener('click', () => openModal('login'));
+  btnCloseModal.addEventListener('click', closeModal);
+  authModal.addEventListener('click', (e) => {
+    if (e.target === authModal) closeModal();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && authModal.style.display === 'flex') {
+      closeModal();
+    }
+  });
+  tabLogin.addEventListener('click', () => switchTab('login'));
+  tabRegister.addEventListener('click', () => switchTab('register'));
+
+  // Flujo 4: Persistencia de sesión al recargar la página
+  async function initAuth() {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (!error && session?.user) {
+        const nombre = await fetchProfileName(session.user.id, session.user.user_metadata?.nombre);
+        setSessionUI(nombre);
+      } else {
+        setSessionUI(null);
+      }
+    } catch (e) {
+      console.error('Error al verificar sesión existente:', e);
+      setSessionUI(null);
+    }
+
+    // Escuchar cambios en la autenticación
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const nombre = await fetchProfileName(session.user.id, session.user.user_metadata?.nombre);
+        setSessionUI(nombre);
+      } else if (event === 'SIGNED_OUT') {
+        setSessionUI(null);
+      }
+    });
+  }
+
+  // Inicializar al cargar el DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAuth);
+  } else {
+    initAuth();
+  }
+</script>
 </body>
 </html>
