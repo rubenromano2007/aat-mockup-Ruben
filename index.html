@@ -446,6 +446,176 @@
       order: 2;
     }
   }
+
+  /* --- Sección Publicar aviso (Assignment 2: texto libre → aviso listo) --- */
+  .avisos {
+    padding: 90px 8%;
+    background-color: var(--verde-claro);
+  }
+
+  .avisos-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .avisos h2 {
+    font-size: 2.2rem;
+    color: var(--verde-oscuro);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .avisos .subtitle {
+    text-align: center;
+    color: #6B7570;
+    margin-bottom: 32px;
+  }
+
+  .aviso-form label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 6px;
+  }
+
+  .aviso-textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 14px;
+    border: 1.5px solid #D5E9DF;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: var(--gris-texto);
+    background-color: var(--blanco);
+    resize: vertical;
+    outline: none;
+  }
+
+  .aviso-textarea:focus {
+    border-color: var(--verde-principal);
+    box-shadow: 0 0 0 3px rgba(46, 125, 91, 0.15);
+  }
+
+  .aviso-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary {
+    background-color: var(--verde-principal);
+    color: var(--blanco);
+    padding: 13px 28px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(46, 125, 91, 0.3);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--verde-oscuro);
+    transform: translateY(-2px);
+  }
+
+  .propuesta {
+    margin-top: 20px;
+    background-color: var(--blanco);
+    border: 1px solid #D5E9DF;
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+
+  .propuesta p {
+    margin-bottom: 10px;
+  }
+
+  .propuesta .categoria-propuesta {
+    font-weight: 800;
+    color: var(--verde-oscuro);
+  }
+
+  .propuesta select {
+    padding: 9px 12px;
+    border: 1.5px solid #D5E9DF;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: var(--gris-texto);
+    background-color: #FAFDFA;
+    margin-left: 8px;
+  }
+
+  .aviso-preview {
+    font-size: 0.9rem;
+    color: #6B7570;
+    background-color: #FAFDFA;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 12px;
+    white-space: pre-wrap;
+  }
+
+  .lista-avisos {
+    margin-top: 48px;
+  }
+
+  .lista-avisos h3 {
+    font-size: 1.4rem;
+    color: var(--verde-oscuro);
+    margin-bottom: 16px;
+  }
+
+  .aviso-card {
+    background-color: var(--blanco);
+    border: 1px solid #D5E9DF;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+
+  .aviso-card .aviso-categoria {
+    display: inline-block;
+    background-color: var(--naranja-acento);
+    color: var(--blanco);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  .aviso-card p {
+    margin-bottom: 4px;
+  }
+
+  .aviso-card .aviso-meta {
+    font-size: 0.85rem;
+    color: #6B7570;
+  }
+
+  .btn-resuelto {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--verde-principal);
+    border: 1.5px solid var(--verde-principal);
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  .btn-resuelto:hover {
+    background-color: var(--verde-claro);
+  }
+
+  .aviso-card.resuelto {
+    opacity: 0.75;
+  }
 </style>
 </head>
 <body>
@@ -455,6 +625,7 @@
   <ul class="nav-links">
     <li><a href="#inicio">Inicio</a></li>
     <li><a href="#funcionalidades">Funcionalidades</a></li>
+    <li><a href="#publicar">Publicar aviso</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
   <div id="auth-nav-container" class="auth-nav">
@@ -495,6 +666,43 @@
       <span class="dato">Gratis entre vecinos</span>
       <h3>Favores Locales</h3>
       <p class="desc">Pide o ofrece ayuda entre vecinos —préstamos de herramientas, cuidado de mascotas, mandados rápidos— y agradece con puntos de ayuda que se acumulan y se devuelven a la comunidad.</p>
+    </div>
+  </div>
+</section>
+
+<section class="avisos" id="publicar">
+  <div class="avisos-inner">
+    <h2>Publica un aviso</h2>
+    <p class="subtitle">Escribe en texto libre lo que pasa en tu calle y VecinoPaso propone la categoría y arma tu aviso listo para publicar.</p>
+
+    <div class="aviso-form">
+      <label for="aviso-texto">¿Qué quieres avisar?</label>
+      <textarea id="aviso-texto" class="aviso-textarea" placeholder="Ej. Se fue la luz en la calle Olmos"></textarea>
+      <div class="aviso-actions">
+        <button id="btn-clasificar" class="btn-secondary" type="button">Proponer categoría</button>
+      </div>
+    </div>
+
+    <div id="propuesta-box" class="propuesta" style="display: none;">
+      <p>Categoría propuesta: <span id="categoria-propuesta" class="categoria-propuesta"></span> <span id="propuesta-detalle" class="aviso-meta"></span></p>
+      <p>¿No es correcta? Cámbiala:
+        <select id="categoria-select">
+          <option value="seguridad">Seguridad</option>
+          <option value="servicios">Servicios</option>
+          <option value="eventos">Eventos</option>
+          <option value="compra-venta">Compra-venta</option>
+        </select>
+      </p>
+      <div id="aviso-preview" class="aviso-preview"></div>
+      <div class="aviso-actions">
+        <button id="btn-publicar" class="btn-primary" type="button">Publicar aviso</button>
+      </div>
+    </div>
+
+    <div class="lista-avisos">
+      <h3>Avisos publicados</h3>
+      <p id="avisos-vacio" class="subtitle">Aún no hay avisos publicados. ¡Sé el primero!</p>
+      <div id="lista-avisos"></div>
     </div>
   </div>
 </section>
@@ -817,6 +1025,204 @@
   } else {
     initAuth();
   }
+</script>
+
+<!-- Función 1 (Assignment 2): texto libre → aviso listo -->
+<script>
+  // Listas de palabras clave por categoría (Propuesta A: listas simples, gana la de más coincidencias)
+  const PALABRAS_CLAVE = {
+    'seguridad': ['robo', 'asalto', 'asaltaron', 'robaron', 'inseguro', 'inseguridad', 'sospechoso', 'sospechosa', 'patrulla', 'policia', 'vigilancia', 'cristalazo', 'armado', 'balacera', 'disparos', 'ladron', 'ratero'],
+    'servicios': ['luz', 'agua', 'bache', 'fuga', 'alumbrado', 'luminaria', 'basura', 'drenaje', 'poste', 'calle', 'banqueta', 'apagon', 'alcantarilla', 'cable', 'tuberia'],
+    'eventos': ['fiesta', 'reunion', 'junta', 'kermes', 'torneo', 'taller', 'bazar', 'posada', 'clase', 'convivio', 'evento'],
+    'compra-venta': ['vendo', 'compro', 'venta', 'precio', 'oferta', 'regalo', 'usado', 'usada', 'nuevo', 'nueva', 'disponible', 'entrego', 'remato', 'vendes', 'compras']
+  };
+  const CATEGORIAS = ['seguridad', 'servicios', 'eventos', 'compra-venta'];
+  const STORAGE_KEY = 'vecinopaso_avisos';
+
+  // Minúsculas, sin acentos y sin signos de puntuación
+  function normalizar(texto) {
+    return texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9 ]/g, ' ');
+  }
+
+  // Clasifica un texto libre: cuenta cuántas palabras clave de cada categoría aparecen.
+  // Una palabra cuenta si es igual a la palabra clave o es su plural (clave + 's' o clave + 'es').
+  function clasificar(texto) {
+    const palabras = normalizar(texto).split(/\s+/).filter(Boolean);
+    const conteos = {};
+    const coincidencias = {};
+    for (const categoria of CATEGORIAS) {
+      let conteo = 0;
+      const encontradas = [];
+      for (const clave of PALABRAS_CLAVE[categoria]) {
+        for (const palabra of palabras) {
+          if (palabra === clave || palabra === clave + 's' || palabra === clave + 'es') {
+            conteo++;
+            encontradas.push(palabra);
+            break;
+          }
+        }
+      }
+      conteos[categoria] = conteo;
+      coincidencias[categoria] = encontradas;
+    }
+    let mejor = null;
+    let max = 0;
+    let empate = false;
+    for (const categoria of CATEGORIAS) {
+      if (conteos[categoria] > max) {
+        max = conteos[categoria];
+        mejor = categoria;
+        empate = false;
+      } else if (conteos[categoria] === max && max > 0) {
+        empate = true;
+      }
+    }
+    if (max === 0 || empate) {
+      return { categoria: null, conteos, coincidencias };
+    }
+    return { categoria: mejor, conteos, coincidencias };
+  }
+
+  function generarId() {
+    return 'AV-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+  }
+
+  function crearAviso(texto, categoria) {
+    return {
+      id: generarId(),
+      texto: texto.trim(),
+      categoria: categoria,
+      fechaHora: new Date().toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' }),
+      resuelto: false
+    };
+  }
+
+  function cargarAvisos() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function guardarAvisos(avisos) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(avisos));
+  }
+
+  function renderAvisos() {
+    const lista = document.getElementById('lista-avisos');
+    const vacio = document.getElementById('avisos-vacio');
+    const avisos = cargarAvisos();
+    lista.innerHTML = '';
+    vacio.style.display = avisos.length ? 'none' : 'block';
+    for (const aviso of avisos) {
+      const card = document.createElement('article');
+      card.className = 'aviso-card' + (aviso.resuelto ? ' resuelto' : '');
+
+      const badge = document.createElement('span');
+      badge.className = 'aviso-categoria';
+      badge.textContent = aviso.categoria;
+      card.appendChild(badge);
+
+      const textoEl = document.createElement('p');
+      textoEl.textContent = aviso.texto;
+      card.appendChild(textoEl);
+
+      const meta = document.createElement('p');
+      meta.className = 'aviso-meta';
+      meta.textContent = 'ID: ' + aviso.id + ' · ' + aviso.fechaHora + ' · Resuelto: ' + (aviso.resuelto ? 'Sí' : 'No');
+      card.appendChild(meta);
+
+      const btn = document.createElement('button');
+      btn.className = 'btn-resuelto';
+      btn.type = 'button';
+      btn.textContent = aviso.resuelto ? 'Reabrir aviso' : 'Marcar como resuelto';
+      btn.addEventListener('click', () => {
+        const todos = cargarAvisos();
+        const objetivo = todos.find(a => a.id === aviso.id);
+        if (objetivo) {
+          objetivo.resuelto = !objetivo.resuelto;
+          guardarAvisos(todos);
+          renderAvisos();
+        }
+      });
+      card.appendChild(btn);
+
+      lista.appendChild(card);
+    }
+  }
+
+  // Flujo: escribir → proponer categoría → (corregir si hace falta) → publicar
+  const avisoTexto = document.getElementById('aviso-texto');
+  const btnClasificar = document.getElementById('btn-clasificar');
+  const propuestaBox = document.getElementById('propuesta-box');
+  const categoriaPropuesta = document.getElementById('categoria-propuesta');
+  const propuestaDetalle = document.getElementById('propuesta-detalle');
+  const categoriaSelect = document.getElementById('categoria-select');
+  const avisoPreview = document.getElementById('aviso-preview');
+  const btnPublicar = document.getElementById('btn-publicar');
+
+  function actualizarPreview() {
+    const categoria = categoriaSelect.value || '(sin elegir)';
+    avisoPreview.textContent =
+      'Texto: ' + avisoTexto.value.trim() +
+      '\nCategoría: ' + categoria +
+      '\nFecha y hora: al publicar' +
+      '\nResuelto: No';
+  }
+
+  btnClasificar.addEventListener('click', () => {
+    const texto = avisoTexto.value.trim();
+    if (!texto) {
+      avisoTexto.focus();
+      return;
+    }
+    const resultado = clasificar(texto);
+    propuestaBox.style.display = 'block';
+    // Quitar opción de placeholder si existía de un intento anterior
+    const placeholder = categoriaSelect.querySelector('option[value=""]');
+    if (placeholder) placeholder.remove();
+    if (resultado.categoria) {
+      categoriaPropuesta.textContent = resultado.categoria;
+      propuestaDetalle.textContent = '(' + resultado.conteos[resultado.categoria] + ' coincidencia(s): ' + resultado.coincidencias[resultado.categoria].join(', ') + ')';
+      categoriaSelect.value = resultado.categoria;
+    } else {
+      categoriaPropuesta.textContent = 'sin clasificar';
+      propuestaDetalle.textContent = '(no encontré palabras clave o hubo empate — elige la categoría)';
+      const opcion = document.createElement('option');
+      opcion.value = '';
+      opcion.textContent = '— Elige una categoría —';
+      categoriaSelect.prepend(opcion);
+      categoriaSelect.value = '';
+    }
+    actualizarPreview();
+  });
+
+  categoriaSelect.addEventListener('change', actualizarPreview);
+
+  btnPublicar.addEventListener('click', () => {
+    const texto = avisoTexto.value.trim();
+    const categoria = categoriaSelect.value;
+    if (!texto) {
+      avisoTexto.focus();
+      return;
+    }
+    if (!categoria) {
+      avisoPreview.textContent = 'Elige una categoría antes de publicar.';
+      return;
+    }
+    const avisos = cargarAvisos();
+    avisos.unshift(crearAviso(texto, categoria));
+    guardarAvisos(avisos);
+    renderAvisos();
+    avisoTexto.value = '';
+    propuestaBox.style.display = 'none';
+  });
+
+  renderAvisos();
+
+  // Expuesto para pruebas desde la consola del navegador
+  window.VecinoPaso = { clasificar, crearAviso, PALABRAS_CLAVE };
 </script>
 </body>
 </html>
