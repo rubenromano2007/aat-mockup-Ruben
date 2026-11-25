@@ -2,7 +2,7 @@
 
 VecinoPaso conecta vecinos para reportes urbanos, fondos comunitarios y favores locales.
 
-## Decisiones de diseño vs. sugerencias del IS
+## Decisiones de diseño con IA
 
 ### 1. Avisos en localStorage (escalabilidad)
 
